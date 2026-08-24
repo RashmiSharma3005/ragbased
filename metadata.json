@@ -1,0 +1,6 @@
+{
+  "name": "DocuMind AI",
+  "description": "High-precision retrieval-augmented generation (RAG) assistant with strict document grounding, interactive citation inspection, and conflict resolution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

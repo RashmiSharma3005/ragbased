@@ -1,0 +1,58 @@
+import { EvalBenchmark } from "../types";
+
+export const EVAL_BENCHMARKS: EvalBenchmark[] = [
+  {
+    id: "eval-grounding-finance",
+    title: "Financial Metrics & Audited Revenue",
+    category: "grounding",
+    query: "What were Apex Financial's net revenues and adjusted EBITDA performance for Q4 2025, and what was the effective corporate tax rate?",
+    targetDocIds: ["doc-apex-10k"],
+    description: "Tests exact numeric extraction, percentage accuracy, and precise page citation [Source: Apex_Annual_Report_2025.pdf, Page 3].",
+    expectedBehavior: "Extracts $1.31B revenue, $495M adjusted EBITDA (37.8% margin), and 19.4% tax rate with direct citation.",
+  },
+  {
+    id: "eval-conflict-resolution",
+    title: "Conflict Resolution (Handbook vs Addendum)",
+    category: "conflict",
+    query: "What is NovaCloud's home office setup allowance and monthly connectivity stipend for remote employees?",
+    targetDocIds: ["doc-novacloud-handbook", "doc-novacloud-addendum"],
+    description: "Tests Rule 4: Explicitly flags the discrepancy between Handbook Page 4 ($1,500 / $85) and Addendum Page 2 ($2,200 / $110) and cites both sources.",
+    expectedBehavior: "Notes that Handbook Page 4 specifies $1,500 and $85/month, while Addendum Q1 2026 Page 2 overrides this to $2,200 and $110/month.",
+  },
+  {
+    id: "eval-absence-of-info",
+    title: "Absence of Information (Zero Hallucination)",
+    category: "absence",
+    query: "What are Apex Financial's planned launch dates and orbital specifications for their quantum satellite communication network in 2035?",
+    targetDocIds: ["doc-apex-10k"],
+    description: "Tests Rule 2: Grounding refusal test. System must reply with the exact standard sentence.",
+    expectedBehavior: "Must respond with: \"I'm sorry, but the provided documents do not contain enough information to answer this question.\"",
+  },
+  {
+    id: "eval-clinical-dosing",
+    title: "Clinical Trial Criteria & Safety Thresholds",
+    category: "grounding",
+    query: "What is the dosing regimen for CardioZen CZ-302 and what are the specific criteria for treatment discontinuation?",
+    targetDocIds: ["doc-cardiozen-protocol"],
+    description: "Tests multi-page medical extraction across Page 2 (dosing 40mg/80mg titration) and Page 3 (discontinuation thresholds).",
+    expectedBehavior: "Lists 40mg daily morning dose, titration to 80mg at Week 8, and the 3 discontinuation criteria (creatinine >50%, K+ >=5.6, symptomatic SBP <90).",
+  },
+  {
+    id: "eval-tech-sla",
+    title: "Distributed Architecture & SLA Guarantees",
+    category: "multidoc",
+    query: "What are the uptime SLAs, consensus protocol, and backup retention windows for AetherScale?",
+    targetDocIds: ["doc-aetherscale-sla"],
+    description: "Tests technical extraction spanning Raft consensus (Page 1), 99.995% SLA / sub-5ms latency (Page 2), and 35-day PITR / 365-day WORM backup (Page 3).",
+    expectedBehavior: "Summarizes Multi-Raft protocol, 99.995% availability, RPO=0, and 35-day PITR / 365-day immutable WORM backup retention with citations.",
+  },
+  {
+    id: "eval-legal-liability",
+    title: "Legal Terms: Termination & Liability Cap",
+    category: "grounding",
+    query: "What is the liability cap and what are the notice periods for termination in the GlobalCorp Master Services Agreement?",
+    targetDocIds: ["doc-legal-msa"],
+    description: "Tests legal contract extraction on 12-month fees cap, carve-outs (Page 2), and 60-day convenience / 30-day breach cure notice (Page 3).",
+    expectedBehavior: "Accurately details the 12-month trailing fees liability cap, carve-outs, 60-day notice for convenience, and 30-day cure period for cause.",
+  },
+];
